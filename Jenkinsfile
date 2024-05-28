@@ -7,7 +7,7 @@ pipeline {
         maven "Maven3"
     }
     environment {
-        APP_NAME = "complete-E2E-deployments"
+        APP_NAME = "complete-e2e-deployments"
         RELEASE = "1.0.0"
         DOCKER_USER = "abbaassahmed40"
         DOCKER_PASS = "dockersecret"
