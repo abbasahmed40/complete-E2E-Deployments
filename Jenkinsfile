@@ -59,6 +59,23 @@ pipeline {
                 }         
             }
         }
-        
+        stage("Update Deployment File") {
+            environment {
+                GIT_REPO_NAME = "complete-E2E-Deployments"
+                GIT_USER_NAME = "abbasahmed40"
+            }
+            steps {
+                withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+                    sh '''
+                        git config user.email "abbaass.ahmed40@gmail.com"
+                        git config user.name "Abbas"
+                        sed -i "s/replaceImageTag/${IMAGE_TAG}/g" kube/deployment.yaml
+                        git add kube/deployment.yaml
+                        git commit -m "Update deployment image to version ${IMAGE_TAG}"
+                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                    '''
+                }
+            }
+        }
     }
 }
