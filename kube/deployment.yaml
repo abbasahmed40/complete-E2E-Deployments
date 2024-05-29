@@ -1,13 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+<<<<<<< HEAD
   name: complete-e2e-deployments
   labels:
     app: complete-e2e-deployments
+=======
+  name: complete-e2e-deployments:1.0.0-31
+  labels:
+    app: complete-e2e-deployments:1.0.0-31
+>>>>>>> 7834e89b35b7052e042e54cd0e16cc6d6805c2f7
 spec:
   replicas: 2
   selector:
     matchLabels:
+<<<<<<< HEAD
       app: complete-e2e-deployments
   template:
     metadata:
@@ -17,6 +24,17 @@ spec:
       containers:
       - name: complete-e2e-deployments
         image: abbaassahmed40/complete-e2e-deployments:1.0.0-30
+=======
+      app: complete-e2e-deployments:1.0.0-31
+  template:
+    metadata:
+      labels:
+        app: complete-e2e-deployments:1.0.0-31
+    spec:
+      containers:
+      - name: complete-e2e-deployments:1.0.0-31
+        image: abbaassahmed40/complete-e2e-deployments:1.0.0-31
+>>>>>>> 7834e89b35b7052e042e54cd0e16cc6d6805c2f7
         ports:
         - containerPort: 8080
         resources:
