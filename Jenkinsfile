@@ -65,14 +65,14 @@ pipeline {
                 GIT_USER_NAME = "abbasahmed40"
             }
             steps {
-                withCredentials([gitUsernamePassword(credentialsId: 'github', gitTooName: 'Default')]) {
+                withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                     sh '''
                         git config user.email "abbaass.ahmed40@gmail.com"
                         git config user.name "Abbas"
                         sed -i "s/replaceImageTag/${IMAGE_TAG}/g" kube/deployment.yaml
                         git add kube/deployment.yaml
-                        git commit -m "Update deployment image to version ${IMAGE_TAG}"
-                        git push https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                        git commit -m "Update deployment image to version ${IMAGE_TAG}" || echo "No changes to commit"
+                        git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                     '''
                 }
             }
