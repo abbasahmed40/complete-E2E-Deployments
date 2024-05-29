@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
 <<<<<<< HEAD
+<<<<<<< HEAD
   name: complete-e2e-deployments
   labels:
     app: complete-e2e-deployments
@@ -10,10 +11,16 @@ metadata:
   labels:
     app: complete-e2e-deployments:1.0.0-31
 >>>>>>> 7834e89b35b7052e042e54cd0e16cc6d6805c2f7
+=======
+  name: complete-e2e-deployments:1.0.0-30
+  labels:
+    app: complete-e2e-deployments:1.0.0-30
+>>>>>>> parent of 7834e89 (Update deployment image to version 1.0.0-31)
 spec:
   replicas: 2
   selector:
     matchLabels:
+<<<<<<< HEAD
 <<<<<<< HEAD
       app: complete-e2e-deployments
   template:
@@ -26,15 +33,23 @@ spec:
         image: abbaassahmed40/complete-e2e-deployments:1.0.0-30
 =======
       app: complete-e2e-deployments:1.0.0-31
+=======
+      app: complete-e2e-deployments:1.0.0-30
+>>>>>>> parent of 7834e89 (Update deployment image to version 1.0.0-31)
   template:
     metadata:
       labels:
-        app: complete-e2e-deployments:1.0.0-31
+        app: complete-e2e-deployments:1.0.0-30
     spec:
       containers:
+<<<<<<< HEAD
       - name: complete-e2e-deployments:1.0.0-31
         image: abbaassahmed40/complete-e2e-deployments:1.0.0-31
 >>>>>>> 7834e89b35b7052e042e54cd0e16cc6d6805c2f7
+=======
+      - name: complete-e2e-deployments:1.0.0-30
+        image: abbaassahmed40/complete-e2e-deployments:1.0.0-30
+>>>>>>> parent of 7834e89 (Update deployment image to version 1.0.0-31)
         ports:
         - containerPort: 8080
         resources:
