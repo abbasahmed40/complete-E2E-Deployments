@@ -69,7 +69,9 @@ pipeline {
                     sh '''
                         git config user.email "abbaass.ahmed40@gmail.com"
                         git config user.name "Abbas"
+                        cat kube/deployment.yaml
                         sed -i "s/replaceImageTag/${IMAGE_TAG}/g" kube/deployment.yaml
+                        cat kube/deployment.yaml
                         git add kube/deployment.yaml
                         git commit -m "Update deployment image to version ${IMAGE_TAG}" || echo "No changes to commit"
                         git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
