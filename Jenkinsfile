@@ -10,7 +10,6 @@ pipeline {
         APP_NAME = "complete-e2e-deployments"
         RELEASE = "1.0.0"
         DOCKER_USER = "abbaassahmed40"
-        DOCKER_PASS = "dockersecret"
         IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
     }
@@ -49,20 +48,34 @@ pipeline {
                 waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-token'
             }         
         }
-         stage("Build & Push Docker Image") {
+        stage("Build & Push Docker Image") {
             steps {
                 script {
-                    docker.withRegistry('',DOCKER_PASS) {
-                        docker_image = docker.build "${IMAGE_NAME}"
+                    docker.withRegistry('', 'dockerhub-credentials') {
+                        def dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                        dockerImage.push("${IMAGE_TAG}")
+                        dockerImage.push('latest')
                     }
-
-                    docker.withRegistry('',DOCKER_PASS) {
-                        docker_image.push("${IMAGE_TAG}")
-                        docker_image.push('latest')
-                    }
-                }
-            }         
+                }         
+            }
         }
-        
+        stage("Update Deployment File") {
+            environment {
+                GIT_REPO_NAME = "complete-E2E-Deployments"
+                GIT_USER_NAME = "abbasahmed40"
+            }
+            steps {
+                withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+                    sh '''
+                        git config user.email "abbaass.ahmed40@gmail.com"
+                        git config user.name "Abbas"
+                        sed -i "s/replaceImageTag/${IMAGE_TAG}/g" kube/deployment.yaml
+                        git add kube/deployment.yaml
+                        git commit -m "Update deployment image to version ${IMAGE_TAG}"
+                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                    '''
+                }
+            }
+        }
     }
 }
