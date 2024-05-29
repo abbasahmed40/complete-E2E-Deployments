@@ -5,7 +5,7 @@ metadata:
   labels:
     app: complete-e2e-deployments
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: complete-e2e-deployments
