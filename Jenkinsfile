@@ -59,6 +59,13 @@ pipeline {
                 }         
             }
         }
+        stage("Trivy Scan") {
+            steps {
+                script {
+                    sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ${IMAGE_NAME}:${IMAGE_TAG} --no-progress --scanners vuln --exit-code 0 --severity HIGH,CRITICAL --format table'
+                }
+            } 
+        }           
         stage("Update Deployment File") {
             environment {
                 GIT_REPO_NAME = "complete-E2E-Deployments"
@@ -71,7 +78,6 @@ pipeline {
                         git config user.name "Abbas"
                         cat kube/deployment.yaml
                         sed -i "s|image: ${DOCKER_USER}/${APP_NAME}:[^[:space:]]*|image: ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG}|g" kube/deployment.yaml
- 
                         cat kube/deployment.yaml
                         git add kube/deployment.yaml
                         git commit -m "Update deployment image to version ${IMAGE_TAG}" || echo "No changes to commit"
