@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: complete-e2e-deployments
-        image: abbaassahmed40/complete-e2e-deployments:1.0.0-38
+        image: abbaassahmed40/complete-e2e-deployments:1.0.0-39
         ports:
         - containerPort: 8080
         resources:
