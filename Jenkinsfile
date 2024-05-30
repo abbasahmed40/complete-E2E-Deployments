@@ -70,7 +70,8 @@ pipeline {
                         git config user.email "abbaass.ahmed40@gmail.com"
                         git config user.name "Abbas"
                         cat kube/deployment.yaml
-                        sed -i "s/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g" kube/deployment.yaml 
+                        sed -i "s|image: ${DOCKER_USER}/${APP_NAME}:[^[:space:]]*|image: ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG}|g" kube/deployment.yaml
+ 
                         cat kube/deployment.yaml
                         git add kube/deployment.yaml
                         git commit -m "Update deployment image to version ${IMAGE_TAG}" || echo "No changes to commit"
